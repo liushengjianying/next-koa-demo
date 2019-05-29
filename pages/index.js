@@ -1,3 +1,5 @@
+import { Button } from 'antd'
+
 export default () => (
-    <span>hello word</span>
+    <Button>hello word</Button>
 )
