@@ -1,5 +1,6 @@
 import App, { Container } from "next/app";
 import Layout from "../components/Layout";
+import myContext from "../lib/my-context";
 import "antd/dist/antd.css";
 
 import { Provider } from "react-redux";
@@ -30,20 +31,22 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, store } = this.props;
 
-    console.log("3333333333", store);
+    console.log('3333333333', store);
 
     return (
       <Container>
         <Provider store={store}>
           <Layout>
-            <Component {...pageProps} />
-            <button
-              onClick={() =>
-                this.setState({ context: `${this.state.context}1111` })
-              }
-            >
-              update context
-            </button>
+            <myContext.Provider value={this.state.context}>
+              <Component {...pageProps} />
+              <button
+                onClick={() =>
+                  this.setState({ context: `${this.state.context}1111` })
+                }
+              >
+                update context
+              </button>
+            </myContext.Provider>
           </Layout>
         </Provider>
       </Container>
