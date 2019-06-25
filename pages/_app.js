@@ -31,7 +31,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, store } = this.props;
 
-    console.log('3333333333', store);
+    console.log("3333333333", store);
 
     return (
       <Container>
