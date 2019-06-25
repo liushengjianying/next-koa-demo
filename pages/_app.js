@@ -37,13 +37,6 @@ class MyApp extends App {
         <Provider store={store}>
           <Layout>
             <Component {...pageProps} />
-            <button
-              onClick={() =>
-                this.setState({ context: `${this.state.context}1111` })
-              }
-            >
-              update context
-            </button>
           </Layout>
         </Provider>
       </Container>
