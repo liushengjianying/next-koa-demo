@@ -1,27 +1,18 @@
 
 export const actionTypes = {
-    ADD: 'ADD',
-    ASYNC_ADD: 'ASYNC_ADD',
-    UPDATE_USERNAME: 'UPDATE_USERNAME'
+    UPDATE_USER: 'UPDATE_USER',
+    LOGOUT: 'LOGOUT'
 }
 
-export function add(num) {
+export function updateUser(userInfo) {
     return {
-        type: actionTypes.ADD,
-        num
+        type: actionTypes.UPDATE_USER,
+        userInfo
     }
 }
 
-export function asyncAdd(num) {
+export function logout() {
     return {
-        type: actionTypes.ASYNC_ADD,
-        num
-    }
-}
-
-export function rename(name) {
-    return {
-        type: actionTypes.UPDATE_USERNAME,
-        name
+        type: actionTypes.LOGOUT
     }
 }

@@ -1,14 +1,14 @@
 export const user = {
-  username: "jocky"
+  
 };
 
 export default function userReducer(state = user, action) {
   switch (action.type) {
-    case "UPDATE_USERNAME":
+    case "UPDATE_USER":
       return {
         ...state,
-        username: action.name
-      };
+        ...action.userInfo
+      }
     default:
       return state;
   }

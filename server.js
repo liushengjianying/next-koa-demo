@@ -20,24 +20,14 @@ app.prepare().then(() => {
 
   server.keys = ["Aoch develop"];
   const SESSION_CONFIG = {
-    key: "jid",  
+    key: "jid",
     store: new RedisSessionStore(redis)
   };
 
   server.use(session(SESSION_CONFIG, server));
-  // 这行代码的逻辑类似于
-  // server.use(async(ctx, next) => {
-  //   if (ctx.cookies.get('jid')) {
-  //     ctx.session = ''
-  //   }
-  //   await next()
-  // 调用完中间件以后，对比session的值，并且返回新的cookie
-  //   ctx.session
-  //   ctx.cookies.set()
-  // })
 
   // 配置处理github OAuth 登录
-  auth(server)
+  auth(server);
 
   router.get("/a/:id", async ctx => {
     const id = ctx.params.id;
@@ -57,12 +47,12 @@ app.prepare().then(() => {
     // ctx.respond = false;
     const user = ctx.session.userInfo;
     if (!user) {
-      ctx.status = 401
-      ctx.body = 'Need Login'
+      ctx.status = 401;
+      ctx.body = "Need Login";
     } else {
-      ctx.body = user
+      ctx.body = user;
       // 设置header
-      ctx.set('Content-Type', 'application/json')
+      ctx.set("Content-Type", "application/json");
     }
   });
 
@@ -70,6 +60,7 @@ app.prepare().then(() => {
 
   server.use(async ctx => {
     // ctx.cookies.set("id", "user:xxxx");
+    ctx.req.session = ctx.session;
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
   });

@@ -7,6 +7,7 @@ import withRedux from "next-redux-wrapper";
 import withReduxSaga from "next-redux-saga";
 
 import createStore from "../store/store";
+import { updateUser } from "../actions/actions";
 // import wrapperRedux from '../lib/withRedux'
 
 class MyApp extends App {
@@ -16,7 +17,17 @@ class MyApp extends App {
 
   static async getInitialProps(ctx) {
     const { Component } = ctx;
+    const { store, isServer, req } = ctx.ctx;
     console.log("app init");
+
+    const session = req.session;
+    if (isServer) {
+      if (session && session.userInfo) {
+        console.log("服务端xxxxxxx");
+        let userInfo = session.userInfo;
+        store.dispatch(updateUser(userInfo));
+      }
+    }
 
     let pageProps = {};
     if (Component.getInitialProps) {
@@ -30,7 +41,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, store } = this.props;
 
-    console.log("3333333333", store);
+    // console.log("3333333333", store);
 
     return (
       <Container>

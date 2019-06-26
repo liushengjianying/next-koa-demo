@@ -10,7 +10,7 @@ const style = {
 }
 
 export default ({ children, renderer = <div /> }) => {
-    console.log(renderer)
+    // console.log(renderer)
 
     return cloneElement(renderer, {
         style: Object.assign({}, renderer.props.style, style),

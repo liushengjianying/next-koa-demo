@@ -7,18 +7,17 @@ import {
   take,
   takeLatest
 } from "redux-saga/effects";
-import { actionTypes, add } from "../actions/actions";
+import { actionTypes, updateUser } from "../actions/actions";
 
+export function* userInfo() {
+  const actions = yield take(actionTypes.UPDATE_USER)
+  yield put(updateUser(actions.userInfo))
+}
 
-export function* asyncAdd() {
-  while (true) {
-    const actions = yield take(actionTypes.ASYNC_ADD);
-    yield delay(1000);
-    yield put(add(actions.num));
-    // yield put({ type: actionTypes.ADD, num: actions.num})
-  }
+export function* logout() {
+  
 }
 
 export default function* rootSaga() {
-  yield all([fork(asyncAdd)]);
+  yield all([fork(userInfo), fork(logout)]);
 }

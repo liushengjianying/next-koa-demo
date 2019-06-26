@@ -3,7 +3,7 @@ export const initialState = {
 };
 
 export default function countReducer(state = initialState, action) {
-  console.log(state, action);
+
   switch (action.type) {
     case "ADD":
       return { count: state.count + (action.num || 1) };
