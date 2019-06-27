@@ -4,6 +4,7 @@ const next = require("next");
 const session = require("koa-session");
 const Redis = require("ioredis");
 const auth = require("./server/auth");
+const koaBody = require('koa-body');
 
 const RedisSessionStore = require("./server/session-store");
 const api = require("./server/github-proxy");
@@ -20,6 +21,9 @@ app.prepare().then(() => {
   const router = new Router();
 
   server.keys = ["Aoch develop"];
+
+  server.use(koaBody());
+  
   const SESSION_CONFIG = {
     key: "jid",
     store: new RedisSessionStore(redis)

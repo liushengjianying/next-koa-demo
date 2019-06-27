@@ -38,15 +38,11 @@ class MyApp extends App {
     Router.events.on("routeChangeStart", this.startLoading);
     Router.events.on("routeChangeComplete", this.stopLoading);
     Router.events.on("routeChangeError", this.stopLoading);
-
-    // axios.get("/github/search/repositories?q=react").then(res => {
-    //   console.log(res);
-    // });
   }
 
   componentWillUnmount() {
     Router.events.off("routeChangeStart", this.startLoading);
-    Router.events.off("ronoffouteChangeComplete", this.stopLoading);
+    Router.events.off("routeChangeComplete", this.stopLoading);
     Router.events.off("routeChangeError", this.stopLoading);
   }
 
@@ -55,8 +51,8 @@ class MyApp extends App {
     const { store, isServer, req } = ctx.ctx;
     console.log("app init", ctx);
 
-    const session = req.session;
     if (isServer) {
+      const session = req.session ;
       if (session && session.userInfo) {
         console.log("服务端xxxxxxx");
         let userInfo = session.userInfo;

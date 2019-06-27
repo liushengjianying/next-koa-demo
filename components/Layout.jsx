@@ -35,7 +35,9 @@ const footStyle = {
 };
 
 function MyLayout({ children, user, toLogout, router }) {
-  const [search, setSearch] = useState("");
+  const urlQuery = router.query && router.query.query;
+
+  const [search, setSearch] = useState(urlQuery || "");
 
   const handleSearchChange = useCallback(event => {
     setSearch(event.target.value);
