@@ -6,6 +6,7 @@ const Redis = require("ioredis");
 const auth = require("./server/auth");
 
 const RedisSessionStore = require("./server/session-store");
+const api = require("./server/github-proxy");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -28,6 +29,7 @@ app.prepare().then(() => {
 
   // 配置处理github OAuth 登录
   auth(server);
+  api(server);
 
   router.get("/a/:id", async ctx => {
     const id = ctx.params.id;
