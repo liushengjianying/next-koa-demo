@@ -13,7 +13,6 @@ import withReduxSaga from "next-redux-saga";
 import createStore from "../store/store";
 import { updateUser } from "../actions/actions";
 
-import axios from "axios";
 // import wrapperRedux from '../lib/withRedux'
 
 class MyApp extends App {
@@ -49,7 +48,6 @@ class MyApp extends App {
   static async getInitialProps(ctx) {
     const { Component } = ctx;
     const { store, isServer, req } = ctx.ctx;
-    console.log("app init", ctx);
 
     if (isServer) {
       const session = req.session ;

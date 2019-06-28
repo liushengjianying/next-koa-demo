@@ -11,7 +11,7 @@ async function test() {
     // 数据库是异步的
     await redis.setex('c', 10 ,123)
     const keys = await redis.keys('*')
-    console.log(await redis.get('a'), keys)
+    // console.log(await redis.get('a'), keys)
 }
 
 test()

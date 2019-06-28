@@ -25,7 +25,7 @@ module.exports = server => {
         }
       });
 
-      console.log(result.status, result.data);
+      // console.log(result.status, result.data);
 
       if (result.status === 200 && (result.data && !result.data.error)) {
         ctx.session.githubAuth = result.data;
@@ -39,7 +39,7 @@ module.exports = server => {
           }
         });
 
-        console.log(userInfoResp.data);
+        // console.log(userInfoResp.data);
 
         ctx.session.userInfo = userInfoResp.data;
 

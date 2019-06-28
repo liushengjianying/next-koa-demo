@@ -16,6 +16,7 @@ const bindMiddleware = middleware => {
 
 export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware();
+  
   const store = createStore(allReducers, initialState, bindMiddleware([sagaMiddleware]));
 
   store.sagaTask = sagaMiddleware.run(rootSaga);

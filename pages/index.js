@@ -1,23 +1,53 @@
-import { useEffect } from 'react'
-const api = require('../lib/api')
-import axios from 'axios'
+import { useEffect } from "react";
+import { connect } from "react-redux";
+const api = require("../lib/api");
 
-function Index() {
-    useEffect(() => {
-        axios.post('/github/test', { test: 123 })
-    })
+function Index({ userResponse, userStaredResponse, isLogin, user }) {
+  console.log(userResponse, userStaredResponse, isLogin, user);
+  console.log(isLogin, user);
 
-    return <span>Index</span>;
+  return <span>Index</span>;
 }
 
 Index.getInitialProps = async ({ ctx }) => {
-    const result = await api.request({
-        url: '/search/repositories?q=react'
-    }, ctx.req, ctx.res);
 
-    return {
-        data: result.data
-    };
+    console.log('3333333333333', ctx.store)
+
+    const user = ctx.store.getState().user;
+    
+    if (!user || !user.id) {
+      return {
+        isLogin: false
+      };
+    }
+
+  const userResponse = await api.request(
+    {
+      url: "/user/repos"
+    },
+    ctx.req,
+    ctx.res
+  );
+
+  const userStaredResponse = await api.request(
+    {
+      url: "/user/starred"
+    },
+    ctx.req,
+    ctx.res
+  );
+
+  return {
+    isLogin: true,
+    userResponse: userResponse.data,
+    userStaredResponse: userStaredResponse.data
+  };
 };
 
-export default Index
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(Index);
