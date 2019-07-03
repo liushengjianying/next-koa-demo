@@ -9,7 +9,7 @@ function getLicense(licence) {
 function getLastUpdated(time) {
     return moment(time).fromNow()
 }
-
+  
 export default ({ repo }) => {
     const time = getLastUpdated(repo.updated_at)
 
