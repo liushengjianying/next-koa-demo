@@ -6,7 +6,7 @@ import api from "../lib/api";
 
 const Option = Select.Option;
 
-function searchUser() {
+function searchUser({ onChange, value }) {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState([]);
   const lastFetchRef = useRef(0);
@@ -28,6 +28,9 @@ function searchUser() {
         })
         .then(res => {
           console.log("user", res);
+          if (fetchId !== lastFetchRef.current) {
+            return
+          }
           const data = res.data.items.map(user => ({
             text: user.login,
             value: user.login
@@ -39,14 +42,22 @@ function searchUser() {
     []
   );
 
+  const handleChange = (value) => {
+    setOptions([])
+    setFetching(false)
+    onChange(value)
+  }
+
   return (
     <Select
       style={{ width: 200 }}
-      disabled={fetching}
+      // disabled={fetching}
       showSearch={true}
       notFoundContent={fetching ? <Spin size="small" /> : <span>nothing</span>}
       filterOption={false}
       placeholder="创建者"
+      value={value}
+      onChange={handleChange}
       onSearch={fetchUser}
       allowClear={true}
     >

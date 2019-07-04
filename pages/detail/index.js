@@ -3,9 +3,7 @@ import api from "../../lib/api";
 import dynamic from "next/dynamic";
 
 // 异步调用组件，该组件中引入的包会在打包时候额外放进一个新的容器，当其他组件也调用该组件时候，就等于节省了空间
-const MDRender = dynamic(() => import("../../components/markDownRender"), {
-  loading: () => <span>Loading</span>
-});
+const MDRender = dynamic(() => import("../../components/markDownRender"));
 
 function Detail({ readme }) {
   return <MDRender content={readme.content} isBase64={true} />;

@@ -1,23 +1,40 @@
-import axios from "axios";
+const axios = require('axios')
 
-const TIME_OUT = 2000000;
+const TIME_OUT = 20000;
+
+// 用于存储 取消请求的标志位
+let pending = [];
 
 axios.defaults.timeout = TIME_OUT;
 const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
 
-// axios.interceptors.request.use(
-//     (config) => {
+const removePending = (config) => {
+  if (pending.length === 0) return
+  for (let p in pending) {
+    if (pending[p].u === `${config.url}&${config.method}`) {
+      pending[p].f() // 取消请求
+      pending.splice(p, 1)
+    }
+  }
+}
 
-//     },
-//     (err) => {
-//         Promise.reject(err)
-//     }
-// )
+axios.interceptors.request.use(
+  (config) => {
+    removePending(config)
+    config.cancelToken = new CancelToken(c => {
+      pending.push({ u:`${config.url}&${config.method}`, f: c });  
+    })
+    return config
+  },
+  (err) => {
+    Promise.reject(err)
+  }
+)
 
 axios.interceptors.response.use(
   response => {
     console.log(response);
+    removePending(response.config) // 删除成功后的请求
     if (response.status >= 200 && response.status < 310) {
       return response;
     }
@@ -26,5 +43,4 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export default axios;
+module.exports = axios;
