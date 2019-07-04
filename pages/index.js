@@ -9,6 +9,8 @@ import Repo from '../components/Repo'
 
 import { Button, Icon, Tabs } from 'antd'
 
+import { cacheArray } from '../lib/repo-basic-cache'
+
 const cache = new Lru({
   maxAge: 1000 * 10
 })
@@ -32,23 +34,36 @@ function Index({ userResponse, userStaredResponse, user, router }) {
     Router.push(`/?key=${activeKey}`)
   }
 
+  const abc = [{a: 1}, {b: 2}, {c: 4}]
+
+  const data = abc.map(item => (
+    {value: 'a'}
+  ))
+
+  // useEffect(() => {
+  //   if (!isServer) {
+  //     // if (userResponse) {
+  //     //   cache.set('userRep', userResponse)
+  //     // }
+  //     // if (userStaredResponse) {
+  //     //   cache.set('userStaredRep', userStaredResponse)
+  //     // }
+  //     cachedUserRep = userResponse
+  //     cachedUserStaredRep = userStaredResponse
+
+  //     const timeout = setTimeout(() => {
+  //       cachedUserRep = null
+  //       cachedUserStaredRep = null
+  //     }, 1000 * 10)
+  //   }
+  // }, [userResponse, userStaredResponse])
+
   useEffect(() => {
     if (!isServer) {
-      // if (userResponse) {
-      //   cache.set('userRep', userResponse)
-      // }
-      // if (userStaredResponse) {
-      //   cache.set('userStaredRep', userStaredResponse)
-      // }
-      cachedUserRep = userResponse
-      cachedUserStaredRep = userStaredResponse
-
-      const timeout = setTimeout(() => {
-        cachedUserRep = null
-        cachedUserStaredRep = null
-      }, 1000 * 10)
+      cacheArray(userResponse);
+      cacheArray(userStaredResponse);
     }
-  }, [userResponse, userStaredResponse])
+  });
 
   if (!user || !user.id) {
     return (

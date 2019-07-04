@@ -4,7 +4,8 @@ const next = require("next");
 const session = require("koa-session");
 const Redis = require("ioredis");
 const auth = require("./server/auth");
-const koaBody = require('koa-body');
+const koaBody = require("koa-body");
+const atob = require("atob");
 
 const RedisSessionStore = require("./server/session-store");
 const api = require("./server/github-proxy");
@@ -16,6 +17,9 @@ const handle = app.getRequestHandler();
 // 创建redis的client
 const redis = new Redis();
 
+// node全局增加atob方法，转移base64
+global.atob = atob;
+
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
@@ -23,7 +27,7 @@ app.prepare().then(() => {
   server.keys = ["Aoch develop"];
 
   server.use(koaBody());
-  
+
   const SESSION_CONFIG = {
     key: "jid",
     store: new RedisSessionStore(redis)

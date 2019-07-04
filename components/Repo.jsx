@@ -1,79 +1,61 @@
-import Link from 'next/link'
-import { Icon } from 'antd'
-import moment from 'moment'
-
-function getLicense(licence) {
-    return licence ? `${licence.spdx_id} license` : ''
-}
-
-function getLastUpdated(time) {
-    return moment(time).fromNow()
-}
+import Link from "next/link";
+import { Icon } from "antd";
+import { getLastUpdated } from "../lib/util";
 
 export default ({ repo }) => {
-    const time = getLastUpdated(repo.updated_at)
+  const time = getLastUpdated(repo.updated_at);
 
-    return (
-        <div className="root">
-            <div className="basic-info">
-                <h3 className="repo-title">
-                    <Link href={`/detail?owner=${repo.owner.login}&name=${repo.name}`}>
-                        <a>{repo.full_name}</a>
-                    </Link>
-                </h3>
-                <p className="repo-desc">
-                    {repo.description}
-                </p>
-                <p className="repo_info">
-                    {
-                        repo.licence ? (
-                            <span className="licence">
-                                {getLicense(repo.licence)}
-                            </span>
-                        ) : null
-                    }
-                    <span className="last_updated">
-                        {time}
-                    </span>
-                    <span className="open-issues">
-                        {repo.open_issues_count ? repo.open_issues_count : 0} open issues
-                    </span>
-                </p>
-            </div>
-            <div className="lang-star">
-                <span className="lang">
-                    {repo.language}
-                </span>
-                <span className="stars">
-                    {repo.stargazers_count} <Icon type="star" theme="filled" />
-                </span>
-            </div>
-            <style jsx>{`
-                .root {
-                    display: flex;
-                    justify-content: space-between
-                }
-                .repo_info > span + span {
-                    margin-left: 10px;
-                }
-                .root + .root {
-                    border-top: 1px solid #eee;
-                    padding-top: 20px;
-                }
-                .repo-title {
-                    font-size: 20px;
-                }
-                .lang-star {
-                    display: flex;
-                }
-                .lang-star > span {
-                    width: 120px;
-                    text-align: right;
-                }
-                .repo-desc {
-                    width: 400px;
-                }
-                `}</style>
-        </div>
-    )
-}
+  return (
+    <div className="root">
+      <div className="basic-info">
+        <h3 className="repo-title">
+          <Link href={`/detail?owner=${repo.owner.login}&name=${repo.name}`}>
+            <a>{repo.full_name}</a>
+          </Link>
+        </h3>
+        <p className="repo-desc">{repo.description}</p>
+        <p className="repo_info">
+          {repo.licence ? (
+            <span className="licence">{getLicense(repo.licence)}</span>
+          ) : null}
+          <span className="last_updated">{time}</span>
+          <span className="open-issues">
+            {repo.open_issues_count ? repo.open_issues_count : 0} open issues
+          </span>
+        </p>
+      </div>
+      <div className="lang-star">
+        <span className="lang">{repo.language}</span>
+        <span className="stars">
+          {repo.stargazers_count} <Icon type="star" theme="filled" />
+        </span>
+      </div>
+      <style jsx>{`
+        .root {
+          display: flex;
+          justify-content: space-between;
+        }
+        .repo_info > span + span {
+          margin-left: 10px;
+        }
+        .root + .root {
+          border-top: 1px solid #eee;
+          padding-top: 20px;
+        }
+        .repo-title {
+          font-size: 20px;
+        }
+        .lang-star {
+          display: flex;
+        }
+        .lang-star > span {
+          width: 120px;
+          text-align: right;
+        }
+        .repo-desc {
+          width: 400px;
+        }
+      `}</style>
+    </div>
+  );
+};
