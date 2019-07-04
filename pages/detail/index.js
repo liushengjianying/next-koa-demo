@@ -2,9 +2,9 @@ import withRepoBasic from "../../components/with-repo-basic";
 import api from "../../lib/api";
 import dynamic from "next/dynamic";
 
-// loading加载js的时候显示
+// 异步调用组件，该组件中引入的包会在打包时候额外放进一个新的容器，当其他组件也调用该组件时候，就等于节省了空间
 const MDRender = dynamic(() => import("../../components/markDownRender"), {
-  loading: () => <p>Loading</p>
+  loading: () => <span>Loading</span>
 });
 
 function Detail({ readme }) {

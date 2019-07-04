@@ -34,6 +34,12 @@ function Index({ userResponse, userStaredResponse, user, router }) {
     Router.push(`/?key=${activeKey}`)
   }
 
+  const abc = [{a: 1}, {b: 2}, {c: 4}]
+
+  const data = abc.map(item => (
+    {value: 'a'}
+  ))
+
   // useEffect(() => {
   //   if (!isServer) {
   //     // if (userResponse) {
